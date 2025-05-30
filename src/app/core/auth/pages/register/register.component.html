@@ -1,1 +1,127 @@
-<p>register works!</p>
+<div class=" flex items-center justify-center ">
+  <div class="max-w-md w-full space-y-8">
+    <div>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-white">
+        Crear una nueva cuenta
+      </h2>
+      <p class="mt-2 text-center text-sm text-gray-400">
+        ¿Ya tienes una cuenta?
+        <a routerLink="/login" class="font-medium text-blue-400 hover:text-blue-300">
+          Inicia sesión aquí
+        </a>
+      </p>
+    </div>
+    <form class="mt-8 space-y-6" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="rounded-md">
+        <div>
+          <label for="name" class="sr-only">Nombre completo</label>
+          <input
+            id="name"
+            formControlName="name"
+            type="text"
+            class="relative block w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-300 placeholder-gray-400 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+            placeholder="Nombre completo"
+            [class.border-red-500]="name?.invalid && name?.touched"
+          />
+          @if(name?.invalid && name?.touched) {
+            <div class="text-red-500 text-xs mt-1 my-1">
+              @if(name?.errors?.['required']) {
+                <span>El nombre es requerido</span>
+              }
+              @if(name?.errors?.['minlength']) {
+                <span>El nombre debe tener al menos 3 caracteres</span>
+              }
+            </div>
+          }
+        </div>
+        <div>
+          <label for="email" class="sr-only">Correo electrónico</label>
+          <input
+            id="email"
+            formControlName="email"
+            type="email"
+            class="relative block w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-300 placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+            placeholder="Correo electrónico"
+            [class.border-red-500]="email?.invalid && email?.touched"
+          />
+          @if(email?.invalid && email?.touched) {
+            <div class="text-red-500 text-xs mt-1  my-1">
+              @if(email?.errors?.['required']) {
+                <span>El correo electrónico es requerido</span>
+              }
+              @if(email?.errors?.['email']) {
+                <span>Ingrese un correo electrónico válido</span>
+              }
+            </div>
+          }
+        </div>
+        <div>
+          <label for="password" class="sr-only">Contraseña</label>
+          <input
+            id="password"
+            formControlName="password"
+            type="password"
+            class="relative block w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-300 placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+            placeholder="Contraseña"
+            [class.border-red-500]="password?.invalid && password?.touched"
+          />
+          @if(password?.invalid && password?.touched) {
+            <div class="text-red-500 text-xs mt-1 my-1">
+              @if(password?.errors?.['required']) {
+                <span>La contraseña es requerida</span>
+              }
+              @if(password?.errors?.['minlength']) {
+                <span>La contraseña debe tener al menos 6 caracteres</span>
+              }
+            </div>
+          }
+        </div>
+        <div>
+          <label for="confirmPassword" class="sr-only">Confirmar contraseña</label>
+          <input
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            type="password"
+            class="relative block w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-300 placeholder-gray-400 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+            placeholder="Confirmar contraseña"
+            [class.border-red-500]="confirmPassword?.invalid && confirmPassword?.touched"
+          />
+          @if(confirmPassword?.invalid && confirmPassword?.touched) {
+            <div class="text-red-500 text-xs mt-1  my-1">
+              @if(confirmPassword?.errors?.['required']) {
+                <span>La confirmación de contraseña es requerida</span>
+              }
+              @if(confirmPassword?.errors?.['passwordMismatch']) {
+                <span>Las contraseñas no coinciden</span>
+              }
+            </div>
+          }
+        </div>
+      </div>
+      <div>
+        <button
+          type="submit"
+          [disabled]="registerForm.invalid"
+          class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+            <svg
+              class="h-5 w-5 text-blue-500 group-hover:text-blue-400"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </span>
+          Registrarse
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
