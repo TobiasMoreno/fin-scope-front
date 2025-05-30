@@ -1,0 +1,15 @@
+<div class="min-h-screen bg-gray-950">
+  <!-- Header -->
+  <app-header (toggleSidebar)="toggleSidebar()" />
+
+  <!-- Sidebar -->
+  <app-sidebar [isOpen]="isSidebarOpen" />
+
+  <!-- Main Content -->
+  <main [class]="'pt-16 min-h-screen transition-all duration-300 ' + (isSidebarOpen ? 'md:ml-64' : 'md:ml-0')">
+    <div class="p-6">
+      <!-- Content will be injected here -->
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
