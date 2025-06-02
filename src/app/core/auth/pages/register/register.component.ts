@@ -1,33 +1,34 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-
-interface RegisterForm {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import {
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { RouterLink, Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-register',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
   private fb = inject(NonNullableFormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  registerForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    confirmPassword: ['', [Validators.required]]
-  }, {
-    validators: this.passwordMatchValidator
-  });
+  registerForm = this.fb.group(
+    {
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]],
+    },
+    {
+      validators: this.passwordMatchValidator,
+    }
+  );
 
   get name() {
     return this.registerForm.get('name');
@@ -59,7 +60,12 @@ export class RegisterComponent {
   onSubmit() {
     if (this.registerForm.valid) {
       const formValue = this.registerForm.getRawValue();
-      console.log('Register data:', formValue);
+      this.authService.register(formValue.email, formValue.password, 'ADMIN')
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/dashboard']);
+          }
+        });
     } else {
       this.registerForm.markAllAsTouched();
     }
