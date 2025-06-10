@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { InputComponent } from '../../../../shared/components/input/input.component';
+import { ButtonComponent } from "../../../../shared/components/button/button.component";
 
 interface LoginForm {
   email: string;
@@ -12,12 +13,15 @@ interface LoginForm {
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, InputComponent, ButtonComponent],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
   private fb = inject(NonNullableFormBuilder);
+  eyeIconUrl = 'img/Vector.svg';
+  showPassword = false;
+  isLoading = false;
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -37,8 +41,17 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const formValue = this.loginForm.getRawValue();
       console.log('Login data:', formValue);
+      this.isLoading = true;
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+    this.eyeIconUrl = this.showPassword ? '/img/eye.svg' : '/img/Vector.svg';
   }
 }

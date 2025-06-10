@@ -1,62 +1,48 @@
-<div class="flex items-center justify-center ">
+<div class="flex items-center justify-center">
   <div class="max-w-md w-full space-y-8">
     <div>
       <h2 class="mt-6 text-center text-3xl font-extrabold text-white">
-        Iniciar sesión en tu cuenta
+        Login to your account
       </h2>
       <p class="mt-2 text-center text-sm text-gray-400">
-        ¿No tienes una cuenta?
-        <a routerLink="/register" class="font-medium text-blue-400 hover:text-blue-300">
-          Regístrate aquí
+        Don't have an account?
+        <a
+          routerLink="/register"
+          class="font-medium text-blue-400 hover:text-blue-300"
+        >
+          Register here
         </a>
       </p>
     </div>
-    <form class="mt-8 space-y-6" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="rounded-md">
-        <div>
-          <label for="email" class="sr-only">Correo electrónico</label>
-          <input
-            id="email"
-            formControlName="email"
-            type="email"
-            class="relative block w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-300 placeholder-gray-400 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-            placeholder="Correo electrónico"
-            [class.border-red-500]="email?.invalid && email?.touched"
-          />
-          @if (email?.invalid && email?.touched) {
-            <div class="text-red-500 text-xs mt-1  my-1">
-              @if (email?.errors?.['required']) {
-                <span>El correo electrónico es requerido</span>
-              }
-              @if (email?.errors?.['email']) {
-                <span>Ingrese un correo electrónico válido</span>
-              }
-            </div>
-          }
-        </div>
-        <div>
-          <label for="password" class="sr-only">Contraseña</label>
-          <input
-            id="password"
-            formControlName="password"
-            type="password"
-            class="relative block w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-300 placeholder-gray-400 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-            placeholder="Contraseña"
-            [class.border-red-500]="password?.invalid && password?.touched"
-          />
-          @if(password?.invalid && password?.touched) {
-            <div class="text-red-500 text-xs mt-1  my-1">
-              @if(password?.errors?.['required']) {
-                <span>La contraseña es requerida</span>
-              }
-              @if(password?.errors?.['minlength']) {
-                <span>La contraseña debe tener al menos 6 caracteres</span>
-              }
-            </div>
-          }
-        </div>
+    <form
+      class="mt-8 space-y-6"
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="rounded-md space-y-4 flex flex-col gap-4">
+        <app-input
+          label="email"
+          type="email"
+          placeholder="Email"
+          [floatingLabels]="true"
+          [errors]="email?.errors || undefined"
+          [touched]="email?.touched || false"
+          formControlName="email"
+          width="100%"
+        >
+        </app-input>
+        <app-input
+          label="password"
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Password"
+          [rightImageUrl]="eyeIconUrl"
+          [errors]="password?.errors || undefined"
+          [touched]="password?.touched || false"
+          [floatingLabels]="true"
+          width="100%"
+          (rightIconClick)="togglePassword()"
+        ></app-input>
       </div>
-
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <input
@@ -66,41 +52,31 @@
             class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-700 bg-gray-800 rounded"
           />
           <label for="remember-me" class="ml-2 block text-sm text-gray-400">
-            Recordarme
+            Remember me
           </label>
         </div>
 
         <div class="text-sm">
           <a href="#" class="font-medium text-blue-400 hover:text-blue-300">
-            ¿Olvidaste tu contraseña?
+            Forgot your password?
           </a>
         </div>
       </div>
 
-      <div>
-        <button
-          type="submit"
+        <app-button
+          size="ultra-large"
+          variant="primary"
+          color="default"
           [disabled]="loginForm.invalid"
-          class=" relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          type="submit"
+          [loading]="isLoading"
+          class="flex justify-center w-full"
         >
-          <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-            <svg
-              class="h-5 w-5 text-blue-500 "
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </span>
-          Iniciar sesión
-        </button>
-      </div>
+          <div class="flex items-center justify-center gap-2 w-full">
+            <img src="/img/lock.svg" alt="lock" class="w-5 h-5" />
+            <span class="mx-auto">Login</span>
+          </div>
+        </app-button>
     </form>
   </div>
 </div>
