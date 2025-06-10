@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gray-950">
+<div class="min-h-screen bg-gray-950 ">
   <!-- Sidebar -->
   <app-sidebar [isOpen]="isSidebarOpen" (toggleSidebar)="toggleSidebar()" />
 
@@ -58,6 +58,10 @@
     <!-- Main Content -->
     <div class="p-6 ">
       <router-outlet></router-outlet>
+      <div class="flex flex-row gap-4 items-center justify-center w-full">
+        <app-card [vacancy]="vacancy" [header]="true" [actions]="true" />
+        <app-card [vacancy]="vacancy" [header]="true" [actions]="true" />
+      </div>
     </div>
     <app-footer />
   </main>
