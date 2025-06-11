@@ -20,6 +20,18 @@ export class AuthService {
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
 
+  constructor() {
+    // Initialize user from localStorage if exists
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      this.currentUserSubject.next(JSON.parse(storedUser));
+    }
+  }
+
+  get currentUser(): User | null {
+    return this.currentUserSubject.value;
+  }
+
   loginWithEmail(email: string, password: string, role: string = 'ADMIN'): Observable<AuthResponse> {
     const loginData: LoginRequest = {
       email,
@@ -61,44 +73,36 @@ export class AuthService {
       );
   }
 
-  private handleAuthResponse(response: AuthResponse): void {
-    localStorage.setItem('token', response.token);
-    this.currentUserSubject.next(response.user);
-  }
-
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     this.currentUserSubject.next(null);
-    this.router.navigate(['/login']);
-    this.showSuccessMessage('Sesión cerrada exitosamente');
+    this.router.navigate(['/auth/login']);
   }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
+    return !!this.currentUser;
+  }
+
+  private handleAuthResponse(response: AuthResponse): void {
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('user', JSON.stringify(response.user));
+    this.currentUserSubject.next(response.user);
   }
 
   private showSuccessMessage(message: string): void {
     this.snackBar.open(message, 'Cerrar', {
       duration: 3000,
-      horizontalPosition: 'end',
-      verticalPosition: 'top',
     });
   }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Ha ocurrido un error';
-
     if (error.error instanceof ErrorEvent) {
-      // Error del lado del cliente
       errorMessage = error.error.message;
-    } 
-    this.snackBar.open(errorMessage, 'Cerrar', {
-      duration: 5000,
-      horizontalPosition: 'end',
-      verticalPosition: 'top',
-      panelClass: ['error-snackbar']
-    });
-
-    return throwError(() => error);
+    } else {
+      errorMessage = error.error.message || 'Error del servidor';
+    }
+    return throwError(() => new Error(errorMessage));
   }
 }

@@ -4,6 +4,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from '../shared/components/footer/footer.component';
 import { CardComponent } from '../shared/components/card/card.component';
 import { ExampleComponent } from "../shared/components/table/example/example.component";
+import { BreadcrumbComponent } from "../shared/components/breadcrumb/breadcrumb.component";
 
 @Component({
   selector: 'app-layout',
@@ -13,7 +14,8 @@ import { ExampleComponent } from "../shared/components/table/example/example.com
     RouterLink,
     FooterComponent,
     CardComponent,
-    ExampleComponent
+    ExampleComponent,
+    BreadcrumbComponent
 ],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css'],

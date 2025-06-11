@@ -8,6 +8,7 @@
     <!-- Header Section -->
     <div class="p-6 flex justify-between items-center border-b border-gray-800">
       <div class="flex items-center">
+        
         @if (!isSidebarOpen) {
           <button
             (click)="toggleSidebar()"
@@ -53,6 +54,9 @@
           </span>
         </button>
       </div>
+    </div>
+    <div class="flex flex-row gap-4 items-center justify-center w-full"> 
+      <app-breadcrumb />
     </div>
 
     <!-- Main Content -->
