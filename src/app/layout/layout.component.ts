@@ -3,6 +3,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from '../shared/components/footer/footer.component';
 import { CardComponent } from '../shared/components/card/card.component';
+import { ExampleComponent } from "../shared/components/table/example/example.component";
 
 @Component({
   selector: 'app-layout',
@@ -12,7 +13,8 @@ import { CardComponent } from '../shared/components/card/card.component';
     RouterLink,
     FooterComponent,
     CardComponent,
-  ],
+    ExampleComponent
+],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css'],
 })
