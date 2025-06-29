@@ -1,32 +1,44 @@
 @if(vacancy()){
-<div class="card" [class.card--hoverable]="hoverable()">
-  @if(header()){
-  <div class="card__header">
+<mat-card class="card">
+  <mat-card-header>
     @if(image){
-    <img [src]="vacancy().logoCompany" class="card__logo" />
-    } @if(accionsheader()){
-    <img src="/assets/img/tresPuntos.svg" alt="" class="card__options" />
+    <div mat-card-avatar>
+      <img
+        [src]="vacancy().logoCompany"
+        alt="Logo"
+        class="w-12 h-12 rounded-lg object-cover"
+      />
+    </div>
     }
-  </div>
-  }
+    <mat-card-title>{{ vacancy().rol }}</mat-card-title>
+    <mat-card-subtitle class="text-sm">{{ vacancy().nameCompany }}</mat-card-subtitle>
+    @if(accionsheader()){
+    <button mat-icon-button>
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    }
+  </mat-card-header>
 
-  <div>
-    <h3 class="card__title">{{ vacancy().rol }}</h3>
-    <span class="card__nameCompany">{{ vacancy().nameCompany }}</span>
-  </div>
-
-  <div class="card__content">
-    <p class="card__location">
+  <mat-card-content>
+    <div class="flex items-center mb-2">
+      <mat-icon
+        class="mr-1"
+        fontIcon="location_on"
+        color="primary"
+        inline
+      ></mat-icon>
       {{ vacancy().location }}
-    </p>
-  </div>
-  <div>
-    <span class="card__date">{{ vacancy().creationDate }}</span>
-  </div>
+    </div>
+    <div class="flex items-center">
+      <mat-icon class="mr-1" fontIcon="event" color="primary" inline></mat-icon>
+      {{ vacancy().creationDate }}
+    </div>
+  </mat-card-content>
+
   @if(actions()){
-  <div class="card__actions">
+  <mat-card-actions>
     <ng-content select="[card-actions]"></ng-content>
-  </div>
+  </mat-card-actions>
   }
-</div>
+</mat-card>
 }

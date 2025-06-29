@@ -10,12 +10,22 @@
         align-items: center;
         justify-content: space-between;
     }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
 }
 
 @media screen and (max-width:768px){
     .header{
         &__container{
             width: 90%;
+        }
+        
+        &__actions {
+            gap: 0.5rem;
         }
     }
 }

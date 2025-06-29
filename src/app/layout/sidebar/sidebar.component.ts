@@ -1,10 +1,10 @@
 import { Component, Input, output } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [],
+  imports: [MatIconModule],
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
   @Input() isOpen: boolean = true;

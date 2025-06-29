@@ -1,23 +1,33 @@
-<div class="menu">
-  <a href="#" class="menu__link"> Notifications </a>
-  <div
-    class="menu__dropdown dropdown"
-    [class.dropdown--active]="isDropdownOpen"
-  >
-    <a href="#" class="dropdown__toggle" (click)="toggleDropdown($event)">
+<div class="flex items-center gap-4">
+  <a href="#" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"> 
+    Notifications 
+  </a>
+  <div class="relative">
+    <a href="#" class="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium" (click)="toggleDropdown($event)">
       Tobias
       <img
         src="./assets/img/profile-2.jpg"
         alt="Foto de perfil"
-        class="dropdown__image"
+        class="w-8 h-8 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600"
       />
     </a>
-    <div class="dropdown__menu">
-      <a href="#" class="dropdown__item"> Configuration </a>
-      <a href="#" class="dropdown__item" (click)="logout()"> Logout </a>
-      <a href="#" class="dropdown__item"> English </a>
-      <a href="#" class="dropdown__item"> Portuguese </a>
-      <a href="#" class="dropdown__item"> Spanish </a>
+    <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50" 
+         [class.hidden]="!isDropdownOpen">
+      <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"> 
+        Configuration 
+      </a>
+      <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" (click)="logout()"> 
+        Logout 
+      </a>
+      <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"> 
+        English 
+      </a>
+      <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"> 
+        Portuguese 
+      </a>
+      <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"> 
+        Spanish 
+      </a>
     </div>
   </div>
 </div>

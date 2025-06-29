@@ -5,6 +5,7 @@ import { FooterComponent } from '../shared/components/footer/footer.component';
 import { CardComponent } from '../shared/components/card/card.component';
 import { ExampleComponent } from "../shared/components/table/example/example.component";
 import { BreadcrumbComponent } from "../shared/components/breadcrumb/breadcrumb.component";
+import { ThemeToggleComponent } from '../shared/components/theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-layout',
@@ -15,12 +16,12 @@ import { BreadcrumbComponent } from "../shared/components/breadcrumb/breadcrumb.
     FooterComponent,
     CardComponent,
     ExampleComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    ThemeToggleComponent
 ],
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.css'],
 })
-export class LayoutComponent {
+export class LayoutComponent {  
   isSidebarOpen = true;
 
   toggleSidebar() {

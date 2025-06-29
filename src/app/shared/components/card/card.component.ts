@@ -1,13 +1,14 @@
 import { Component, input } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-card',
-  imports: [],
+  imports: [MatCardModule, MatIconModule, MatButtonModule],
   templateUrl: './card.component.html',
-  styleUrl: './card.component.scss',
 })
 export class CardComponent {
-
   header = input(false);
   accionsheader = input(false);
   actions = input(false);

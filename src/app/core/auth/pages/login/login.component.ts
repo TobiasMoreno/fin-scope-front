@@ -12,10 +12,8 @@ interface LoginForm {
 
 @Component({
   selector: 'app-login',
-  standalone: true,
   imports: [ReactiveFormsModule, RouterLink, InputComponent, ButtonComponent],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
 })
 export class LoginComponent {
   private fb = inject(NonNullableFormBuilder);

@@ -1,4 +1,4 @@
-<nav class="flex px-5 py-3 text-gray-700 dark:text-gray-200" aria-label="breadcrumb">
+<nav class="flex px-5 py-3 text-gray-400" aria-label="breadcrumb">
     <ol class="inline-flex items-center space-x-1 md:space-x-3">
         @for (crumb of crumbs; track $index) {
             <li class="inline-flex items-center">
@@ -8,7 +8,7 @@
                     </svg>
                 }
                 <a [routerLink]="crumb.url" 
-                   class="inline-flex items-center text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                   class="inline-flex items-center text-sm font-medium hover:text-blue-600 duration-200">
                     {{ crumb.label }}
                 </a>
             </li>

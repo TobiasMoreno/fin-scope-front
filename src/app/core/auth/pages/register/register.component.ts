@@ -11,7 +11,6 @@ import { AuthService } from '../../../services/auth.service';
   selector: 'app-register',
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
   private fb = inject(NonNullableFormBuilder);

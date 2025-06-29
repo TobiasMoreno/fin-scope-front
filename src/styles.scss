@@ -1,0 +1,245 @@
+@use '@angular/material' as mat;
+@import "tailwindcss";
+
+/* === VARIABLES GLOBALES OKLCH === */
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.823);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.141 0.005 285.823);
+  --primary: oklch(0.767 0.130471 197.9232);
+  --primary-foreground: oklch(0.08 0.02 181);
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.967 0.001 286.375);
+  --muted-foreground: oklch(0.552 0.016 285.938);
+  --accent: oklch(0.967 0.001 286.375);
+  --accent-foreground: oklch(0.21 0.006 285.885);
+  --destructive: oklch(0.606 0.2463 358.87);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --border: oklch(0.92 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --ring: oklch(0.78 0.13 181);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.141 0.005 285.823);
+  --sidebar-primary: oklch(0.78 0.13 181);
+  --sidebar-primary-foreground: oklch(0.08 0.02 181);
+  --sidebar-accent: oklch(0.967 0.001 286.375);
+  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+  --sidebar-border: oklch(0.92 0.004 286.32);
+  --sidebar-ring: oklch(0.705 0.015 286.067);
+}
+
+.dark {
+  --background: oklch(0.1319 0.005 191.67);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.141 0.005 285.823);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.141 0.005 285.823);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.68 0.11 181);
+  --primary-foreground: oklch(0.08 0.02 181);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+  --accent: oklch(0.274 0.006 286.033);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.606 0.2463 358.87);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.274 0.006 286.033);
+  --input: oklch(0.274 0.006 286.033);
+  --ring: oklch(0.68 0.11 181);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.21 0.006 285.885);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.68 0.11 181);
+  --sidebar-primary-foreground: oklch(0.08 0.02 181);
+  --sidebar-accent: oklch(0.274 0.006 286.033);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.274 0.006 286.033);
+  --sidebar-ring: oklch(0.442 0.017 285.786);
+}
+
+html, body { 
+  height: 100%; 
+}
+
+body {
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Estilos base para componentes */
+.dark .card {
+  background-color: var(--card);
+  color: var(--card-foreground);
+}
+
+.dark .table {
+  background-color: var(--card);
+  color: var(--card-foreground);
+}
+
+.dark .text {
+  color: var(--card-foreground);
+}
+
+/* Estilos para Material Design en modo oscuro */
+.dark .mat-mdc-menu-panel {
+  background-color: var(--card) !important;
+  color: var(--card-foreground) !important;
+}
+
+.dark .mat-mdc-menu-item {
+  color: var(--card-foreground) !important;
+}
+
+.dark .mat-mdc-menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.dark .mat-mdc-button {
+  color: var(--card-foreground) !important;
+}
+
+.dark .mat-mdc-icon-button {
+  color: var(--card-foreground) !important;
+}
+
+.dark .mat-mdc-checkbox {
+  color: var(--card-foreground) !important;
+}
+
+.dark .mat-mdc-paginator {
+  background-color: var(--card) !important;
+  color: var(--card-foreground) !important;
+}
+
+.dark .mat-mdc-paginator-page-size-label,
+.dark .mat-mdc-paginator-range-label {
+  color: var(--card-foreground) !important;
+}
+
+.dark .mat-mdc-paginator-navigation-previous,
+.dark .mat-mdc-paginator-navigation-next,
+.dark .mat-mdc-paginator-navigation-first,
+.dark .mat-mdc-paginator-navigation-last {
+  color: var(--card-foreground) !important;
+}
+
+.dark .mat-mdc-table {
+  background-color: var(--card) !important;
+}
+
+.dark .mat-mdc-header-cell {
+  background-color: var(--card) !important;
+  color: var(--card-foreground) !important;
+}
+
+.dark .mat-mdc-cell {
+  color: var(--foreground) !important;
+  border-bottom-color: var(--card) !important;
+}
+
+.dark .mat-mdc-row:hover {
+  background-color: var(--card) !important;
+}
+
+.dark .mat-mdc-sort-header {
+  color: var(--card-foreground) !important;
+}
+
+.dark .mat-mdc-sort-header-arrow {
+  color: var(--card-foreground) !important;
+}
+
+.dark .mat-mdc-select-value {
+  color: var(--card-foreground) !important;
+}
+
+.dark .mat-mdc-select-arrow {
+  color: var(--card-foreground) !important;
+}
+
+/* Transiciones suaves para cambios de tema */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Estilos para scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--foreground);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: var(--card);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--foreground);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--card-foreground);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--card-foreground);
+}
+
+.card {
+  background: var(--card);
+  color: var(--card-foreground);
+}
+.dark mat-card-subtitle{
+  color: var(--card-foreground);
+}
+
+.table {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.dark .sidebar {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Overrides para Angular Material usando variables */
+.dark .mat-mdc-header-cell,
+.dark .mat-mdc-header-row {
+  background-color: var(--card) !important;
+  color: var(--card-foreground) !important;
+}
+
+.dark .mat-mdc-cell {
+  color: var(--foreground) !important;
+}
+
+/* Puedes agregar más overrides y estilos aquí si lo necesitas */
