@@ -8,18 +8,26 @@ export const roleGuard: CanActivateFn = (route) => {
   const snackBar = inject(MatSnackBar);
   const authService = inject(AuthService);
 
-  const requiredRoles = route.data['roles'] as string[];
   const currentUser = authService.currentUser;
+  const requiredRoles = route.data?.['roles'] || [];
 
   if (!currentUser) {
-    snackBar.open('No estás autenticado', 'Cerrar', {
+    snackBar.open('Debes iniciar sesión para acceder a esta página', 'Cerrar', {
       duration: 3000,
     });
     router.navigate(['/auth/login']);
     return false;
   }
 
-  if (!requiredRoles.includes(currentUser.role)) {
+  // Si no hay roles requeridos, permitir acceso
+  if (requiredRoles.length === 0) {
+    return true;
+  }
+
+  // Verificar si el usuario tiene el rol requerido
+  const hasRequiredRole = requiredRoles.includes(currentUser.role);
+  
+  if (!hasRequiredRole) {
     snackBar.open('No tienes permisos para acceder a esta página', 'Cerrar', {
       duration: 3000,
     });

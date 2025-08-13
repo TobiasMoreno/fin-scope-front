@@ -5,8 +5,7 @@ import { tap, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '../interfaces/user.interface';
-import { AuthResponse } from '../interfaces/auth-response.interface';
-import { LoginRequest } from '../interfaces/login-request.interface';
+import { AuthResponse, GoogleAuthRequest } from '../interfaces/auth-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -32,43 +31,18 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  loginWithEmail(email: string, password: string, role: string = 'ADMIN'): Observable<AuthResponse> {
-    const loginData: LoginRequest = {
-      email,
-      password,
-      role
-    };
-
-    return this.http.post<AuthResponse>(`${this.API_URL}/auth/email-login`, loginData)
-      .pipe(
-        tap(response => this.handleAuthResponse(response)),
-        tap(() => this.showSuccessMessage('Inicio de sesión exitoso')),
-        catchError(this.handleError)
-      );
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 
-  loginWithGoogle(): Observable<AuthResponse> {
-    return this.http.get<AuthResponse>(`${this.API_URL}/auth/google-login`)
+
+  loginWithGoogle(idToken: string): Observable<AuthResponse> {
+    const googleAuthRequest: GoogleAuthRequest = { idToken };
+
+    return this.http.post<AuthResponse>(`${this.API_URL}/auth/google`, googleAuthRequest)
       .pipe(
         tap(response => this.handleAuthResponse(response)),
         tap(() => this.showSuccessMessage('Inicio de sesión con Google exitoso')),
-        catchError(this.handleError)
-      );
-  }
-
-  register(email: string, password: string, role: string = 'ADMIN'): Observable<AuthResponse> {
-    const registerData: LoginRequest = {
-      email,
-      password,
-      role
-    };
-
-    return this.http.post<AuthResponse>(`${this.API_URL}/auth/email-register`, registerData)
-      .pipe(
-        tap(response => {
-          this.handleAuthResponse(response);
-          this.showSuccessMessage('Registro exitoso');
-        }),
         catchError(this.handleError)
       );
   }
@@ -81,13 +55,21 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.currentUser;
+    return !!this.getToken() && !!this.currentUser;
   }
 
   private handleAuthResponse(response: AuthResponse): void {
     localStorage.setItem('token', response.token);
-    localStorage.setItem('user', JSON.stringify(response.user));
-    this.currentUserSubject.next(response.user);
+    
+    // Create user object from response
+    const user: User = {
+      email: response.email,
+      nombre: response.nombre,
+      foto: response.foto
+    };
+    
+    localStorage.setItem('user', JSON.stringify(user));
+    this.currentUserSubject.next(user);
   }
 
   private showSuccessMessage(message: string): void {

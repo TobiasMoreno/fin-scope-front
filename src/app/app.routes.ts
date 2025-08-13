@@ -13,15 +13,14 @@ export const routes: Routes = [
     children: [
       {
         path: 'login',
-        loadComponent: () => import('./core/auth/pages/login/login.component').then(m => m.LoginComponent),
-        title: 'Iniciar sesión',
-        data: { breadcrumb: 'Iniciar sesión' }
+        loadComponent: () => import('./core/auth/google-login/google-login.component').then(m => m.GoogleLoginComponent),
+        title: 'Iniciar Sesión',
+        data: { breadcrumb: 'Login' }
       },
       {
-        path: 'register',
-        loadComponent: () => import('./core/auth/pages/register/register.component').then(m => m.RegisterComponent),
-        title: 'Registrarse',
-        data: { breadcrumb: 'Registrarse' }
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
       }
     ]
   },
