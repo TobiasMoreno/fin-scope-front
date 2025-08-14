@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { GoogleCredentialResponse, GoogleSignInConfig, GoogleButtonConfig } from '../../interfaces/google-signin.interface';
@@ -8,7 +8,7 @@ import { GoogleCredentialResponse, GoogleSignInConfig, GoogleButtonConfig } from
   imports: [],
   templateUrl: './google-login.component.html'
 })
-export class GoogleLoginComponent implements OnInit, OnDestroy {
+export class GoogleLoginComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   
@@ -22,9 +22,6 @@ export class GoogleLoginComponent implements OnInit, OnDestroy {
     }
     
     this.initializeGoogleSignIn();
-  }
-
-  ngOnDestroy() {
   }
 
   private initializeGoogleSignIn() {
