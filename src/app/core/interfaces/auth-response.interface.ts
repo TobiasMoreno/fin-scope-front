@@ -2,9 +2,10 @@ import { User } from "./user.interface";
 
 export interface AuthResponse {
   token: string;
-  nombre: string;
+  name: string;
   email: string;
-  foto: string;
+  picture: string;
+  role: string;
 }
 
 export interface GoogleAuthRequest {

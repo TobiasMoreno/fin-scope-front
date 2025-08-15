@@ -64,8 +64,9 @@ export class AuthService {
     // Create user object from response
     const user: User = {
       email: response.email,
-      nombre: response.nombre,
-      foto: response.foto
+      name: response.name,
+      picture: response.picture,
+      role: response.role
     };
     
     localStorage.setItem('user', JSON.stringify(user));

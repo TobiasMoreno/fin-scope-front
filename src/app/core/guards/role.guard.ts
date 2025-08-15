@@ -9,7 +9,7 @@ export const roleGuard: CanActivateFn = (route) => {
   const authService = inject(AuthService);
 
   const currentUser = authService.currentUser;
-  const requiredRoles = route.data?.['roles'] || [];
+  const currentPath = route.routeConfig?.path || '';
 
   if (!currentUser) {
     snackBar.open('Debes iniciar sesión para acceder a esta página', 'Cerrar', {
@@ -19,21 +19,41 @@ export const roleGuard: CanActivateFn = (route) => {
     return false;
   }
 
-  // Si no hay roles requeridos, permitir acceso
-  if (requiredRoles.length === 0) {
+  const userRole = currentUser.role || 'ROLE_DEFAULT';
+
+  // ROLE_ADMIN puede acceder a todas las rutas
+  if (userRole === 'ROLE_ADMIN') {
     return true;
   }
 
-  // Verificar si el usuario tiene el rol requerido
-  const hasRequiredRole = requiredRoles.includes(currentUser.role);
-  
-  if (!hasRequiredRole) {
-    snackBar.open('No tienes permisos para acceder a esta página', 'Cerrar', {
-      duration: 3000,
-    });
-    router.navigate(['/dashboard']);
-    return false;
+  // ROLE_PREMIUM no puede acceder a rutas que contengan 'admin'
+  if (userRole === 'ROLE_PREMIUM') {
+    if (currentPath === 'admin') {
+      snackBar.open('No tienes permisos para acceder a esta página', 'Cerrar', {
+        duration: 3000,
+      });
+      router.navigate(['/dashboard']);
+      return false;
+    }
+    return true;
   }
 
-  return true;
+  // ROLE_DEFAULT no puede acceder a rutas que contengan 'admin' ni 'charts'
+  if (userRole === 'ROLE_DEFAULT') {
+    if (currentPath === 'admin' || currentPath === 'charts') {
+      snackBar.open('No tienes permisos para acceder a esta página', 'Cerrar', {
+        duration: 3000,
+      });
+      router.navigate(['/dashboard']);
+      return false;
+    }
+    return true;
+  }
+
+  // Para cualquier otro rol, denegar acceso
+  snackBar.open('No tienes permisos para acceder a esta página', 'Cerrar', {
+    duration: 3000,
+  });
+  router.navigate(['/dashboard']);
+  return false;
 }; 
