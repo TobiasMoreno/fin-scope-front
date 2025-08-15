@@ -59,15 +59,15 @@ export class ButtonComponent {
 
   private getColorClasses(): string {
     const colorMap = {
-      'default': 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white focus:ring-blue-500',
-      'success': 'bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 text-white focus:ring-green-500',
-      'error': 'bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 text-white focus:ring-red-500',
-      'warning': 'bg-yellow-600 hover:bg-yellow-700 dark:bg-yellow-500 dark:hover:bg-yellow-600 text-white focus:ring-yellow-500',
-      'info': 'bg-blue-500 hover:bg-blue-600 dark:bg-blue-400 dark:hover:bg-blue-500 text-white focus:ring-blue-400',
-      'dark': 'bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-800 text-white focus:ring-gray-700',
-      'green': 'bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 text-white focus:ring-green-500',
-      'red': 'bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 text-white focus:ring-red-500',
-      'gray': 'bg-gray-600 hover:bg-gray-700 dark:bg-gray-500 dark:hover:bg-gray-600 text-white focus:ring-gray-500'
+      'default': 'bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500',
+      'success': 'bg-green-600 hover:bg-green-700 text-white focus:ring-green-500',
+      'error': 'bg-red-600 hover:bg-red-700 text-white focus:ring-red-500',
+      'warning': 'bg-yellow-600 hover:bg-yellow-700 text-white focus:ring-yellow-500',
+      'info': 'bg-blue-500 hover:bg-blue-600 text-white focus:ring-blue-400',
+      'dark': 'bg-gray-800 hover:bg-gray-900 text-white focus:ring-gray-700',
+      'green': 'bg-green-600 hover:bg-green-700 text-white focus:ring-green-500',
+      'red': 'bg-red-600 hover:bg-red-700 text-white focus:ring-red-500',
+      'gray': 'bg-gray-600 hover:bg-gray-700 text-white focus:ring-gray-500'
     };
     return colorMap[this.color()] || colorMap.default;
   }
@@ -75,9 +75,9 @@ export class ButtonComponent {
   private getVariantClasses(): string {
     const variantMap = {
       'primary': '',
-      'secondary': 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white focus:ring-gray-500',
-      'outline': 'bg-transparent border-2 border-current text-current hover:bg-current hover:text-white dark:hover:bg-current dark:hover:text-white',
-      'ghost': 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 focus:ring-gray-500'
+      'secondary': 'bg-gray-200 hover:bg-gray-300 text-gray-900 focus:ring-gray-500',
+      'outline': 'bg-transparent border-2 border-current text-current hover:bg-current hover:text-white',
+      'ghost': 'bg-transparent hover:bg-gray-100 text-gray-700 focus:ring-gray-500'
     };
     return variantMap[this.variant()] || variantMap.primary;
   }

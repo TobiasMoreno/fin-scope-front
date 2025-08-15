@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from '../shared/components/footer/footer.component';
-import { CardComponent } from '../shared/components/card/card.component';
 import { ExampleComponent } from "../shared/components/table/example/example.component";
 import { BreadcrumbComponent } from "../shared/components/breadcrumb/breadcrumb.component";
-import { ThemeToggleComponent } from '../shared/components/theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-layout',
@@ -14,10 +12,8 @@ import { ThemeToggleComponent } from '../shared/components/theme-toggle/theme-to
     SidebarComponent,
     RouterLink,
     FooterComponent,
-    CardComponent,
     ExampleComponent,
-    BreadcrumbComponent,
-    ThemeToggleComponent
+    BreadcrumbComponent
 ],
   templateUrl: './layout.component.html',
 })

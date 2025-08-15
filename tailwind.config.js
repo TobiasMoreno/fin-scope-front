@@ -3,11 +3,10 @@ module.exports = {
   content: [
     "./src/**/*.{html,ts}",
   ],
-  darkMode: 'class', // Habilita el modo oscuro usando la clase 'dark'
   theme: {
     extend: {
       colors: {
-        // Colores personalizados para modo claro y oscuro
+        // Colores personalizados
         primary: {
           50: '#eff6ff',
           100: '#dbeafe',
@@ -20,19 +19,6 @@ module.exports = {
           800: '#1e40af',
           900: '#1e3a8a',
         },
-        background: {
-          light: '#ffffff',
-          dark: '#0f172a',
-        },
-        surface: {
-          light: '#f8fafc',
-          dark: '#1e293b',
-        },
-        text: {
-          light: '#1e293b',
-          dark: '#f1f5f9',
-        }
-      },
       animation: {
         'fade-in': 'fadeIn 0.3s ease-in-out',
         'slide-up': 'slideUp 0.3s ease-out',

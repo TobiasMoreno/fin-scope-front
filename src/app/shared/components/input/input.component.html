@@ -2,7 +2,7 @@
   <div class="relative w-full flex items-center">
     <img [src]="selectedCountry()?.flag" alt="country flag" class="absolute left-2.5 top-1/2 -translate-y-1/2 w-[30px] rounded-sm z-10">
     <select 
-      class="absolute left-[42px] top-1/2 -translate-y-1/2 bg-transparent border-none w-10 text-gray-900 dark:text-gray-100 cursor-pointer z-20 disabled:text-gray-500 disabled:cursor-not-allowed" 
+      class="absolute left-[42px] top-1/2 -translate-y-1/2 bg-transparent border-none w-10 text-zinc-100 cursor-pointer z-20 disabled:text-zinc-500 disabled:cursor-not-allowed" 
       [disabled]="isDisabled"
       (change)="onSelectCountry($any($event.target).value)">
       @for (country of availableCountries; track country.code) {
@@ -11,22 +11,20 @@
         </option>
       }
     </select>
-    <div class="relative flex items-center bg-white dark:bg-gray-800 min-h-[54px] px-3 rounded-md border transition-colors" 
+    <div class="relative flex items-center bg-zinc-800 min-h-[54px] px-3 rounded-md border transition-colors" 
          [class.border-red-500]="errors() && fieldIsTouched"
-         [class.border-gray-300]="!(errors() && fieldIsTouched) && !isFocused"
-         [class.border-gray-400]="!(errors() && fieldIsTouched) && isFocused"
-         [class.dark:border-gray-600]="!(errors() && fieldIsTouched) && !isFocused"
-         [class.dark:border-gray-500]="!(errors() && fieldIsTouched) && isFocused"
+         [class.border-zinc-600]="!(errors() && fieldIsTouched) && !isFocused"
+         [class.border-zinc-500]="!(errors() && fieldIsTouched) && isFocused"
          [style.width]="width()" 
          [style.height]="height()" 
          [style.background-color]="backgroundColor()">
-      <span class="pl-20 text-sm text-gray-900 dark:text-gray-100">{{selectedCountry()?.dialCode}}</span>
+      <span class="pl-20 text-sm text-zinc-100">{{selectedCountry()?.dialCode}}</span>
 
       <input 
         [type]="type()" 
         [id]="label()" 
         [placeholder]="floatingLabels() ? ' ' : placeholder()"
-        class="h-full w-full border-none outline-none text-sm text-gray-900 dark:text-gray-100 font-medium leading-[130%] font-montserrat px-1.5 mt-1.5 bg-transparent placeholder-gray-500 dark:placeholder-gray-400"
+        class="h-full w-full border-none outline-none text-sm text-zinc-100 font-medium leading-[130%] font-montserrat px-1.5 mt-1.5 bg-transparent placeholder-zinc-400"
         [class.placeholder-start]="placeholderPosition() === 'start'"
         [class.has-content]="innerValue && innerValue.length > 0"
         [formControlName]="label()"
@@ -37,22 +35,18 @@
         [for]="label()" 
         class="absolute left-4 font-montserrat text-sm transition-all duration-200 pointer-events-none top-1/2 -translate-y-1/2 z-10"
         [class.text-red-500]="errors() && fieldIsTouched"
-        [class.text-gray-600]="!(errors() && fieldIsTouched) && !isFocused"
-        [class.text-gray-500]="!(errors() && fieldIsTouched) && isFocused"
-        [class.dark:text-gray-400]="!(errors() && fieldIsTouched) && !isFocused"
-        [class.dark:text-gray-300]="!(errors() && fieldIsTouched) && isFocused"
+        [class.text-zinc-400]="!(errors() && fieldIsTouched) && !isFocused"
+        [class.text-zinc-300]="!(errors() && fieldIsTouched) && isFocused"
         [class.floating]="floatingLabels() && (isFocused || (innerValue && innerValue.length > 0))">
         {{ floatingLabels() ? placeholder() : label() }}
       </label>
     </div>
   </div>
 } @else {
-  <div class="relative flex items-center bg-white dark:bg-gray-800 min-h-[54px] px-3 rounded-md border transition-colors" 
+  <div class="relative flex items-center bg-zinc-800 min-h-[54px] px-3 rounded-md border transition-colors" 
        [class.border-red-500]="errors() && fieldIsTouched"
-       [class.border-gray-300]="!(errors() && fieldIsTouched) && !isFocused"
-       [class.border-gray-400]="!(errors() && fieldIsTouched) && isFocused"
-       [class.dark:border-gray-600]="!(errors() && fieldIsTouched) && !isFocused"
-       [class.dark:border-gray-500]="!(errors() && fieldIsTouched) && isFocused"
+       [class.border-zinc-600]="!(errors() && fieldIsTouched) && !isFocused"
+       [class.border-zinc-500]="!(errors() && fieldIsTouched) && isFocused"
        [style.width]="width()" 
        [style.height]="height()" 
        [style.background-color]="backgroundColor()">
@@ -60,7 +54,7 @@
       [type]="type()" 
       [id]="label()" 
       [placeholder]="floatingLabels() ? ' ' : placeholder()"
-      class="h-full w-full border-none outline-none text-sm text-gray-900 dark:text-gray-100 font-medium leading-[130%] font-montserrat px-1.5 mt-1.5 bg-transparent placeholder-gray-500 dark:placeholder-gray-400"
+      class="h-full w-full border-none outline-none text-sm text-zinc-100 font-medium leading-[130%] font-montserrat px-1.5 mt-1.5 bg-transparent placeholder-zinc-400"
       [class.pl-12]="leftImageUrl()"
       [class.pr-12]="rightImageUrl() || (showClearButton() && innerValue)"
       [class.placeholder-start]="placeholderPosition() === 'start'"
@@ -74,10 +68,8 @@
       [for]="label()" 
       class="absolute left-4 font-montserrat text-sm transition-all duration-200 pointer-events-none top-1/2 -translate-y-1/2 z-10"
       [class.text-red-500]="errors() && fieldIsTouched"
-      [class.text-gray-600]="!(errors() && fieldIsTouched) && !isFocused"
-      [class.text-gray-500]="!(errors() && fieldIsTouched) && isFocused"
-      [class.dark:text-gray-400]="!(errors() && fieldIsTouched) && !isFocused"
-      [class.dark:text-gray-300]="!(errors() && fieldIsTouched) && isFocused"
+      [class.text-zinc-400]="!(errors() && fieldIsTouched) && !isFocused"
+      [class.text-zinc-300]="!(errors() && fieldIsTouched) && isFocused"
       [class.floating]="floatingLabels() && innerValue && innerValue.length > 0">
       {{ floatingLabels() ? placeholder() : label() }}
     </label>
