@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '../interfaces/user.interface';
 import { AuthResponse, GoogleAuthRequest } from '../interfaces/auth-response.interface';
+import { CookieService } from './cookie.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +15,55 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
   private readonly API_URL = 'http://localhost:8080';
+  
+  // Token en memoria para mayor seguridad
+  private accessToken: string | null = null;
+  private tokenExpiry: number | null = null;
 
   private http = inject(HttpClient);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
+  private cookieService = inject(CookieService);
 
   constructor() {
-    // Initialize user from localStorage if exists
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      this.currentUserSubject.next(JSON.parse(storedUser));
+    this.initializeUserFromCookies();
+  }
+
+  private initializeUserFromCookies(): void {
+    const token = this.cookieService.getAuthToken();
+    const userData = this.cookieService.getUserData();
+    const expiry = this.cookieService.getTokenExpiry();
+    
+    if (token && userData && expiry) {
+      try {
+        const expiryTime = parseInt(expiry);
+        
+        // Verificar si el token no ha expirado
+        if (Date.now() < expiryTime) {
+          this.accessToken = token;
+          this.tokenExpiry = expiryTime;
+          
+          const userWithToken: User = {
+            ...userData,
+            token: token
+          };
+          
+          this.currentUserSubject.next(userWithToken);
+        } else {
+          this.clearCookies();
+        }
+      } catch (error) {
+        this.clearCookies();
+      }
     }
+  }
+
+  private clearCookies(): void {
+    this.cookieService.clearAuthCookies();
+    
+    this.accessToken = null;
+    this.tokenExpiry = null;
+    this.currentUserSubject.next(null);
   }
 
   get currentUser(): User | null {
@@ -32,9 +71,14 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    // Verificar si el token ha expirado
+    if (this.tokenExpiry && Date.now() >= this.tokenExpiry) {
+      this.clearCookies();
+      return null;
+    }
+    
+    return this.accessToken;
   }
-
 
   loginWithGoogle(idToken: string): Observable<AuthResponse> {
     const googleAuthRequest: GoogleAuthRequest = { idToken };
@@ -48,28 +92,35 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    this.currentUserSubject.next(null);
+    this.clearCookies();
     this.router.navigate(['/auth/login']);
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken() && !!this.currentUser;
+    const authenticated = !!(this.currentUser && this.getToken());
+    return authenticated;
   }
 
   private handleAuthResponse(response: AuthResponse): void {
-    localStorage.setItem('token', response.token);
+    // Token expira en 1 hora
+    const expiry = Date.now() + (60 * 60 * 1000);
     
-    // Create user object from response
     const user: User = {
       email: response.email,
       name: response.name,
       picture: response.picture,
-      role: response.role
+      role: response.role,
+      token: response.token
     };
     
-    localStorage.setItem('user', JSON.stringify(user));
+    // Guardar en cookies usando el CookieService con nombres crípticos
+    this.cookieService.setAuthToken(response.token, 1);
+    this.cookieService.setUserData(user, 1);
+    this.cookieService.setTokenExpiry(expiry.toString(), 1);
+    
+    this.accessToken = response.token;
+    this.tokenExpiry = expiry;
+    
     this.currentUserSubject.next(user);
   }
 

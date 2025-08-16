@@ -4,4 +4,5 @@ export interface User {
   name: string;
   picture: string;
   role?: string;
+  token?: string;
 }
