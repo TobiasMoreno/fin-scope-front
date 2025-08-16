@@ -4,10 +4,11 @@ import { AsyncPipe } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { SidebarService } from '../../shared/services/sidebar.service';
 import { User } from '../../core/interfaces/user.interface';
+import { ButtonComponent } from "../../shared/components/button/button.component";
 
 @Component({
   selector: 'app-sidebar',
-  imports: [MatIconModule, AsyncPipe],
+  imports: [MatIconModule, AsyncPipe, ButtonComponent],
   templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent {
