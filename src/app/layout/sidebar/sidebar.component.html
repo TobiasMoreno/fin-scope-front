@@ -1,70 +1,94 @@
 <aside
   [class]="
-    'fixed top-0 left-0 bottom-0 z-50 w-64 bg-[var(--sidebar)] text-[var(--sidebar-foreground)] border-r border-[var(--sidebar-border)]' +
-    (isOpen ? ' translate-x-0' : ' -translate-x-full')
+    'fixed top-0 left-0 bottom-0 z-50 w-64 bg-[var(--sidebar)] text-[var(--sidebar-foreground)] border-r border-[var(--sidebar-border)] transform transition-all duration-300 ease-out shadow-2xl' +
+    ((isSidebarOpen$ | async) ? ' translate-x-0 opacity-100' : ' -translate-x-full opacity-0')
   "
 >
-  <div class="py-4 pl-4">
+  <div class="py-4 pl-4 h-full flex flex-col animate-slideInFromLeft">
+    <!-- Header del Sidebar -->
     <div class="flex items-center justify-between mb-6">
-      <h1 class="text-xl font-semibold">
+      <h1 class="text-xl font-semibold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
         FinScope
       </h1>
       <button
-        (click)="toggleSidebar.emit()"
-        class="p-2"
+        (click)="toggleSidebar()"
+        class="p-2 mr-2 rounded-lg hover:bg-[var(--sidebar-accent)] transition-all duration-200 hover:scale-110"
+        aria-label="Cerrar sidebar"
       >
-        <mat-icon>close</mat-icon>
+        <mat-icon class="group-hover:rotate-90 transition-transform duration-200">close</mat-icon>
       </button>
     </div>
 
-    <!-- Quick Actions -->
-    <div class="mb-6">
-      <h2 class="text-sm font-semibold uppercase mt-2">
-        Acciones Rápidas
-      </h2>
-      <div class="space-y-1 mt-2">
-        <button
-          class="w-full px-3 py-2 text-left rounded-lg transition-colors flex items-center hover:bg-[var(--sidebar-accent)]"
-        >
-          <mat-icon>add</mat-icon>
-          <span class="ml-3">Nueva Operación</span>
-        </button>
-        <button
-          class="w-full px-3 py-2 text-left rounded-lg transition-colors flex items-center hover:bg-[var(--sidebar-accent)]"
-          
-        >
-          <mat-icon>analytics</mat-icon>
-          <span class="ml-3">Análisis de Mercado</span>
-        </button>
-        <button
-          class="w-full px-3 py-2 text-left rounded-lg flex items-center hover:bg-[var(--sidebar-accent)]"
-        >
-          <mat-icon>assignment</mat-icon>
-          <span class="ml-3">Revisión de Portafolio</span>
-        </button>
+    <!-- Contenido del Sidebar con Scroll -->
+    <div class="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
+      <!-- Quick Actions -->
+      <div class="mb-6">
+        <h2 class="text-sm font-semibold uppercase mt-2 text-gray-400 tracking-wider">
+          Acciones Rápidas
+        </h2>
+        <div class="space-y-2 mt-3">
+          <button
+            class="w-full px-3 py-3 text-left rounded-xl transition-all duration-200 flex items-center hover:bg-[var(--sidebar-accent)] hover:scale-[1.02] hover:shadow-lg group relative overflow-hidden"
+          >
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
+            <mat-icon class="group-hover:scale-110 transition-transform duration-200 relative z-10">add</mat-icon>
+            <span class="ml-3 font-medium relative z-10">Nueva Operación</span>
+          </button>
+          <button
+            class="w-full px-3 py-3 text-left rounded-xl transition-all duration-200 flex items-center hover:bg-[var(--sidebar-accent)] hover:scale-[1.02] hover:shadow-lg group relative overflow-hidden"
+          >
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
+            <mat-icon class="group-hover:scale-110 transition-transform duration-200 relative z-10">analytics</mat-icon>
+            <span class="ml-3 font-medium relative z-10">Análisis de Mercado</span>
+          </button>
+          <button
+            class="w-full px-3 py-3 text-left rounded-xl transition-all duration-200 flex items-center hover:bg-[var(--sidebar-accent)] hover:scale-[1.02] hover:shadow-lg group relative overflow-hidden"
+          >
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
+            <mat-icon class="group-hover:scale-110 transition-transform duration-200 relative z-10">assignment</mat-icon>
+            <span class="ml-3 font-medium relative z-10">Revisión de Portafolio</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Watchlist -->
+      <div class="mb-6">
+        <h2 class="text-sm font-semibold uppercase mb-3 text-gray-400 tracking-wider">
+          Lista de Seguimiento
+        </h2>
+        <div class="space-y-2">
+          <a href="#" class="px-3 py-3 rounded-xl flex items-center hover:bg-[var(--sidebar-accent)] transition-all duration-200 hover:scale-[1.02] group relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
+            <mat-icon class="text-green-400 group-hover:scale-110 transition-transform duration-200 relative z-10">trending_up</mat-icon>
+            <span class="ml-3 font-medium relative z-10">AAPL</span>
+            <span class="ml-auto text-xs text-green-400 relative z-10">+2.5%</span>
+          </a>
+          <a href="#" class="px-3 py-3 rounded-xl flex items-center hover:bg-[var(--sidebar-accent)] transition-all duration-200 hover:scale-[1.02] group relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
+            <mat-icon class="text-green-400 group-hover:scale-110 transition-transform duration-200 relative z-10">trending_up</mat-icon>
+            <span class="ml-3 font-medium relative z-10">MSFT</span>
+            <span class="ml-auto text-xs text-green-400 relative z-10">+1.8%</span>
+          </a>
+          <a href="#" class="px-3 py-3 rounded-xl flex items-center hover:bg-[var(--sidebar-accent)] transition-all duration-200 hover:scale-[1.02] group relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
+            <mat-icon class="text-red-400 group-hover:scale-110 transition-transform duration-200 relative z-10">trending_down</mat-icon>
+            <span class="ml-3 font-medium relative z-10">GOOGL</span>
+            <span class="ml-auto text-xs text-red-400 relative z-10">-0.5%</span>
+          </a>
+        </div>
       </div>
     </div>
 
-    <!-- Watchlist -->
-    <div class="mb-6">
-      <h2 class="text-sm font-semibold uppercase mb-2">
-        Lista de Seguimiento
-      </h2>
-      <div class="space-y-1 mt-2">
-        <a href="#" class="px-3 py-2 rounded-lg flex items-center hover:bg-[var(--sidebar-accent)]">
-          <mat-icon>trending_up</mat-icon>
-          <span class="ml-3">AAPL</span>
-        </a>
-        <a href="#" class="px-3 py-2 rounded-lg flex items-center hover:bg-[var(--sidebar-accent)]">
-          <mat-icon>trending_up</mat-icon>
-          <span class="ml-3">MSFT</span>
-        </a>
-        <a href="#" class="px-3 py-2 rounded-lg flex items-center hover:bg-[var(--sidebar-accent)]">
-          <mat-icon>trending_up</mat-icon>
-          <span class="ml-3">GOOGL</span>
-        </a>
-      </div>
+    <!-- Footer del Sidebar -->
+    <div class="pt-4 border-t border-[var(--sidebar-border)]">
+      <button
+        (click)="logout()"
+        class="w-full px-4 py-3 text-sm rounded-xl flex items-center justify-center cursor-pointer text-zinc-300 hover:bg-red-600 hover:text-white transition-all duration-200 hover:scale-[1.02] group relative overflow-hidden"
+      >
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
+        <mat-icon class="group-hover:scale-110 transition-transform duration-200 relative z-10">logout</mat-icon>
+        <span class="ml-2 font-medium relative z-10">Cerrar sesión</span>
+      </button>
     </div>
-
   </div>
 </aside>

@@ -1,35 +1,38 @@
 <div
   class="min-h-screen text-[var(--sidebar-foreground)] border-r border-[var(--sidebar-border)]"
 >
-  <!-- Overlay for mobile -->
-  @if (isSidebarOpen) {
+  <!-- Overlay for mobile con transición suave -->
   <div
     (click)="toggleSidebar()"
-    class="fixed inset-0 z-40 md:hidden"
+    [class]="
+      'fixed inset-0 z-40 md:hidden transition-all duration-300 ease-out' +
+      ((isSidebarOpen$ | async) ? ' bg-black/50 backdrop-blur-sm' : ' bg-transparent pointer-events-none')
+    "
   ></div>
-  }
+  
   <!-- Sidebar -->
-  <app-sidebar [isOpen]="isSidebarOpen" (toggleSidebar)="toggleSidebar()" />
+  <app-sidebar />
 
   <main
     [class]="
-      'transition-all duration-300 ease-in-out ' +
-      (isSidebarOpen ? 'md:ml-64' : 'md:ml-0')
+      'transition-all duration-300 ease-out transform' +
+      ((isSidebarOpen$ | async) ? ' md:ml-64' : ' md:ml-0')
     "
   >
     <!-- Header Section -->
     <div
-      class="p-6 flex justify-between items-center border-b"
+      class="p-6 flex justify-between items-center border-b bg-white/5 backdrop-blur-sm border-white/10"
     >
       <div class="flex items-center">
-        @if (!isSidebarOpen) {
+        @if (!(isSidebarOpen$ | async)) {
         <button
           (click)="toggleSidebar()"
-          class="p-2 text-zinc-300 hover:text-blue-400 cursor-pointer"
+          class="p-2 text-zinc-300 hover:text-blue-400 cursor-pointer rounded-lg hover:bg-[var(--sidebar-accent)] transition-all duration-200 hover:scale-110 group"
+          aria-label="Abrir sidebar"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
+            class="h-6 w-6 group-hover:rotate-180 transition-transform duration-200"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -42,7 +45,7 @@
             />
           </svg>
         </button>
-        <h1 class="text-xl font-semibold ml-2 text-zinc-100">
+        <h1 class="text-xl font-semibold ml-2 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
           FinScope
         </h1>
         }
@@ -50,9 +53,10 @@
 
       <div class="flex items-center gap-4">
         <!-- Auth Buttons -->
+         @if(!currentUser) {
         <button
           routerLink="/auth/login"
-          class="px-4 py-2 text-sm rounded-lg flex items-center cursor-pointer text-zinc-300 hover:bg-zinc-700 hover:text-blue-400"
+          class="px-4 py-2 text-sm rounded-lg flex items-center cursor-pointer text-zinc-300 hover:bg-zinc-700 hover:text-blue-400 transition-all duration-200 hover:scale-105"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -70,12 +74,11 @@
           </svg>
           <span class="ml-2"> Iniciar sesión </span>
         </button>
-        <button
-          (click)="logout()"
-          class="px-4 py-2 text-sm rounded-lg flex items-center cursor-pointer text-zinc-300 hover:bg-zinc-700 hover:text-blue-400"
-        >
-          Cerrar sesión
-        </button>
+        }
+        <div class="flex items-center gap-2">
+          <img [src]="currentUser?.picture || ''" alt="avatar" class="w-8 h-8 rounded-full ring-2 ring-blue-400/20 hover:ring-blue-400/40 transition-all duration-200">
+          <p class="text-sm font-medium">{{currentUser?.name || ''}}</p>
+        </div>
       </div>
     </div>
 
@@ -86,7 +89,7 @@
     </div>
 
     <!-- Main Content -->
-    <div class="p-6">
+    <div class="p-6 animate-fadeInUp">
       <router-outlet></router-outlet>
     </div>
 

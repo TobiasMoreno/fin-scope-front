@@ -1,10 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from '../shared/components/footer/footer.component';
 import { ExampleComponent } from '../shared/components/table/example/example.component';
 import { BreadcrumbComponent } from '../shared/components/breadcrumb/breadcrumb.component';
 import { AuthService } from '../core/services/auth.service';
+import { SidebarService } from '../shared/services/sidebar.service';
 
 @Component({
   selector: 'app-layout',
@@ -15,25 +17,19 @@ import { AuthService } from '../core/services/auth.service';
     FooterComponent,
     ExampleComponent,
     BreadcrumbComponent,
+    AsyncPipe,
   ],
   templateUrl: './layout.component.html',
 })
 export class LayoutComponent {
-  isSidebarOpen = true;
   private authService = inject(AuthService);
-
+  private sidebarService = inject(SidebarService);
+  
+  // Usar observables para reactividad
+  currentUser = this.authService.currentUser;
+  isSidebarOpen$ = this.sidebarService.isSidebarOpen$;
+  
   toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
-  }
-  vacancy = {
-    logoCompany: 'img/logo-light.jpg',
-    nameCompany: 'Company Name',
-    rol: 'Software Engineer',
-    location: 'New York, NY',
-    creationDate: '2021-01-01',
-  };
-
-  logout() {
-    this.authService.logout();
+    this.sidebarService.toggleSidebar();
   }
 }
