@@ -1,0 +1,83 @@
+@defer (when !config().loading) {
+  <div
+    class="rounded-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 {{
+      getVariantClasses()
+    }} {{ getSizeClasses() }}"
+  >
+    <div class="flex items-center justify-between">
+      <div class="flex-1">
+        <p class="text-sm font-medium text-gray-700">{{ config().title }}</p>
+        <p class="text-2xl font-bold {{ getValueColorClass() }}">
+          {{ config().value }}
+        </p>
+
+        @if (config().subtitle) {
+          <p class="text-xs text-gray-600 mt-1">{{ config().subtitle }}</p>
+        }
+        
+        @if (config().trend) {
+          <div class="flex items-center mt-2">
+            <span class="text-sm {{ getTrendColorClass() }} font-medium">
+              {{ config().trend!.value }}
+            </span>
+            <svg
+              class="w-4 h-4 ml-1 {{ getTrendColorClass() }}"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              @if (config().trend!.isPositive) {
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
+                ></path>
+              } @else {
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                ></path>
+              }
+            </svg>
+          </div>
+        }
+      </div>
+
+      @if (config().icon) {
+        <div class="p-3 rounded-full {{ getIconColorClass() }}">
+          <mat-icon class="w-6 h-6">{{ config().icon }}</mat-icon>
+        </div>
+      }
+    </div>
+  </div>
+} @placeholder {
+  <div
+    class="rounded-lg transition-all duration-300 {{
+      getVariantClasses()
+    }} {{ getSizeClasses() }}"
+  >
+    <div class="flex items-center justify-between">
+      <div class="flex-1">
+        <app-skeleton [config]="{ type: 'title', className: 'mb-2' }"></app-skeleton>
+        <app-skeleton [config]="{ type: 'value', className: 'mb-2' }"></app-skeleton>
+
+        @if (config().subtitle) {
+          <app-skeleton [config]="{ type: 'subtitle', className: 'mb-2' }"></app-skeleton>
+        }
+        
+        @if (config().trend) {
+          <app-skeleton [config]="{ type: 'trend' }"></app-skeleton>
+        }
+      </div>
+
+      @if (config().icon) {
+        <div class="p-3 rounded-full {{ getIconColorClass() }}">
+          <app-skeleton [config]="{ type: 'icon' }"></app-skeleton>
+        </div>
+      }
+    </div>
+  </div>
+}

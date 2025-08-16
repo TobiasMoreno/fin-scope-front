@@ -46,142 +46,164 @@
   }
 
   <div class="overflow-x-auto" >
-    <mat-table
-      mat-table
-      [dataSource]="tableDataSource"
-      matSort
-      (matSortChange)="onSortChange($event)"
-      class="w-full bg-[var(--card)]"
-    >
-      @for (column of config()?.columns; track column.name) { @if
-      (isColumnVisible(column.name)) {
-      <ng-container [matColumnDef]="column.name">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          [mat-sort-header]="column.sortable ? column.name : ''"
-          [disabled]="!column.sortable"
-          class="px-4 py-3 border-b font-medium"
-          style="color: var(--card-foreground); background: var(--card); border-color: var(--border);"
-        >
-          {{ column.header }}
-        </th>
-        <td
-          mat-cell
-          *matCellDef="let row"
-          (click)="onRowClick(row)"
-          [attr.data-sort]="row[column.name]"
-          class="px-4 py-3 border-b transition-colors cursor-pointer"
-          style="color: var(--card-foreground); background: var(--card); border-color: var(--border);"
-        >
-          @switch (getColumnType(column)) { @case ('date') {
-          {{ row[column.name] | date : "dd/MM/yyyy" }}
-          } @case ('currency') {
-          {{ row[column.name] | currency : "EUR" : "symbol" : "1.2-2" }}
-          } @case ('boolean') {
-          <span
-            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-            [class]="
-              row[column.name]
-                ? 'bg-green-600 text-green-100'
-                : 'bg-red-600 text-red-100'
-            "
+    @defer (when !loading()) {
+      <mat-table
+        mat-table
+        [dataSource]="tableDataSource"
+        matSort
+        (matSortChange)="onSortChange($event)"
+        class="w-full bg-[var(--card)]"
+      >
+        @for (column of config()?.columns; track column.name) { @if
+        (isColumnVisible(column.name)) {
+        <ng-container [matColumnDef]="column.name">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            [mat-sort-header]="column.sortable ? column.name : ''"
+            [disabled]="!column.sortable"
+            class="px-4 py-3 border-b font-medium"
+            style="color: var(--card-foreground); background: var(--card); border-color: var(--border);"
           >
-            {{ row[column.name] ? "Activo" : "Inactivo" }}
-          </span>
-          } @default {
-          {{ row[column.name] }}
-          } }
-        </td>
-      </ng-container>
-      } }
+            {{ column.header }}
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let row"
+            (click)="onRowClick(row)"
+            [attr.data-sort]="row[column.name]"
+            class="px-4 py-3 border-b transition-colors cursor-pointer"
+            style="color: var(--card-foreground); background: var(--card); border-color: var(--border);"
+          >
+            @switch (getColumnType(column)) { @case ('date') {
+            {{ row[column.name] | date : "dd/MM/yyyy" }}
+            } @case ('currency') {
+            {{ row[column.name] | currency : "EUR" : "symbol" : "1.2-2" }}
+            } @case ('boolean') {
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+              [class]="
+                row[column.name]
+                  ? 'bg-green-600 text-green-100'
+                  : 'bg-red-600 text-red-100'
+              "
+            >
+              {{ row[column.name] ? "Activo" : "Inactivo" }}
+            </span>
+            } @default {
+            <span [class]="shouldShowColorIndicator(column) ? getValueColorClass(row[column.name]) : ''">
+              {{ row[column.name] }}
+            </span>
+            } }
+          </td>
+        </ng-container>
+        } }
 
-      <!-- Columna de acciones -->
-      @if (config()?.showActions) {
-      <ng-container [matColumnDef]="actionsColumn">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          class="px-4 py-3 border-b font-medium text-center"
-          style="color: var(--card-foreground); background: var(--card); border-color: var(--border);"
-        >
-          Acciones
-        </th>
-        <td
-          mat-cell
-          *matCellDef="let row"
-          class="px-4 py-3 border-b text-center"
-        >
-          <div class="action-buttons-container">
-            @if (shouldShowViewButton()) {
-            <button
-              mat-icon-button
-              color="primary"
-              [matTooltip]="getViewButtonText()"
-              (click)="onViewClick(row, $event)"
-              class="action-button"
-            >
-              <mat-icon>visibility</mat-icon>
-            </button>
-            }
-            @if (shouldShowEditButton()) {
-            <button
-              mat-icon-button
-              [matTooltip]="getEditButtonText()"
-              (click)="onEditClick(row, $event)"
-              class="action-button"
-            >
-              <mat-icon>edit</mat-icon>
-            </button>
-            }
-            @if (shouldShowDeleteButton()) {
-            <button
-              mat-icon-button
-              color="warn"
-              [matTooltip]="getDeleteButtonText()"
-              (click)="onDeleteClick(row, $event)"
-              class="action-button"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
-            }
-            @if (getCustomActions().length > 0) {
-            <button
-              mat-icon-button
-              [matMenuTriggerFor]="customActionsMenu"
-              [matTooltip]="'Más acciones'"
-              class="action-button"
-            >
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #customActionsMenu="matMenu">
-              @for (action of getCustomActions(); track action.name) {
-              @if (action.visible !== false) {
+        <!-- Columna de acciones -->
+        @if (config()?.showActions) {
+        <ng-container [matColumnDef]="actionsColumn">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="px-4 py-3 border-b font-medium text-center"
+            style="color: var(--card-foreground); background: var(--card); border-color: var(--border);"
+          >
+            Acciones
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let row"
+            class="px-4 py-3 border-b text-center"
+          >
+            <div class="action-buttons-container">
+              @if (shouldShowViewButton()) {
               <button
-                mat-menu-item
-                [disabled]="action.disabled"
-                (click)="onCustomActionClick(action.name, row, $event)"
+                mat-icon-button
+                color="primary"
+                [matTooltip]="getViewButtonText()"
+                (click)="onViewClick(row, $event)"
+                class="action-button"
               >
-                <mat-icon [color]="action.color">{{ action.icon }}</mat-icon>
-                <span>{{ action.tooltip }}</span>
+                <mat-icon>visibility</mat-icon>
               </button>
               }
+              @if (shouldShowEditButton()) {
+              <button
+                mat-icon-button
+                [matTooltip]="getEditButtonText()"
+                (click)="onEditClick(row, $event)"
+                class="action-button"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
               }
-            </mat-menu>
+              @if (shouldShowDeleteButton()) {
+              <button
+                mat-icon-button
+                color="warn"
+                [matTooltip]="getDeleteButtonText()"
+                (click)="onDeleteClick(row, $event)"
+                class="action-button"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+              }
+              @if (getCustomActions().length > 0) {
+              <button
+                mat-icon-button
+                [matMenuTriggerFor]="customActionsMenu"
+                [matTooltip]="'Más acciones'"
+                class="action-button"
+              >
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #customActionsMenu="matMenu">
+                @for (action of getCustomActions(); track action.name) {
+                @if (action.visible !== false) {
+                <button
+                  mat-menu-item
+                  [disabled]="action.disabled"
+                  (click)="onCustomActionClick(action.name, row, $event)"
+                >
+                  <mat-icon [color]="action.color">{{ action.icon }}</mat-icon>
+                  <span>{{ action.tooltip }}</span>
+                </button>
+                }
+                }
+              </mat-menu>
+              }
+            </div>
+          </td>
+        </ng-container>
+        }
+
+        <tr mat-header-row *matHeaderRowDef="visibleColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: visibleColumns"
+          class="transition-colors"
+          [class]="'hover:bg-[var(--accent)]'"
+        ></tr>
+      </mat-table>
+    } @placeholder {
+      <!-- Skeleton loading para la tabla -->
+      <div class="p-4 space-y-3">
+        @for (item of [1,2,3,4,5]; track item) {
+          <div class="flex items-center space-x-4">
+            @for (column of config()?.columns; track column.name) {
+              @if (isColumnVisible(column.name)) {
+                <app-skeleton [config]="{ type: 'text', width: '120px' }"></app-skeleton>
+              }
             }
           </div>
-        </td>
-      </ng-container>
-      }
-
-      <tr mat-header-row *matHeaderRowDef="visibleColumns"></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: visibleColumns"
-        class="transition-colors"
-        [class]="'hover:bg-[var(--accent)]'"
-      ></tr>
-    </mat-table>
+        }
+      </div>
+    } @loading {
+      <!-- Loading state adicional si es necesario -->
+      <div class="flex justify-center items-center p-8">
+        <mat-spinner></mat-spinner>
+      </div>
+    }
   </div>
 
   @if (config()?.showPaginator) {

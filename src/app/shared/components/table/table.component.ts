@@ -19,6 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DatePipe } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
 import { ButtonComponent } from "../button/button.component";
+import { SkeletonComponent } from "../skeleton/skeleton.component";
 
 export interface TableColumn {
   name: string;
@@ -29,6 +30,7 @@ export interface TableColumn {
   order?: number;
   editable?: boolean;
   required?: boolean;
+  showColorIndicator?: boolean;
 }
 
 export interface TableAction {
@@ -76,7 +78,8 @@ export interface TableConfig {
     MatTooltipModule,
     DatePipe,
     CurrencyPipe,
-    ButtonComponent
+    ButtonComponent,
+    SkeletonComponent
 ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
@@ -185,6 +188,28 @@ export class TableComponent<T> implements OnInit {
 
   getColumnType(column: TableColumn): string {
     return column.type || 'text';
+  }
+
+  // Nuevo método para detectar valores con + o - y aplicar colores
+  getValueColorClass(value: any): string {
+    if (!value || typeof value !== 'string') {
+      return '';
+    }
+    
+    const trimmedValue = value.toString().trim();
+    
+    if (trimmedValue.startsWith('+')) {
+      return 'text-green-600 font-medium';
+    } else if (trimmedValue.startsWith('-')) {
+      return 'text-red-600 font-medium';
+    }
+    
+    return '';
+  }
+
+  // Método para verificar si una columna debe mostrar indicadores de color
+  shouldShowColorIndicator(column: TableColumn): boolean {
+    return column.showColorIndicator === true;
   }
 
   // Helper methods for actions

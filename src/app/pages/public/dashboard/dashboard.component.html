@@ -1,22 +1,97 @@
-<div class="container mx-auto p-6">
-  <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
-  
-  <div class="bg-white rounded-lg shadow-md p-6">
-    <p class="text-gray-600 mb-4">Bienvenido al dashboard de FinScope.</p>
-    
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bg-blue-50 p-4 rounded-lg">
-        <h3 class="font-semibold text-blue-800 mb-2">Resumen</h3>
-        <p class="text-blue-600">Información general del sistema</p>
-      </div>
-      <div class="bg-green-50 p-4 rounded-lg">
-        <h3 class="font-semibold text-green-800 mb-2">Actividad</h3>
-        <p class="text-green-600">Actividad reciente</p>
-      </div>
-      <div class="bg-purple-50 p-4 rounded-lg">
-        <h3 class="font-semibold text-purple-800 mb-2">Estadísticas</h3>
-        <p class="text-purple-600">Datos estadísticos</p>
-      </div>
+<div class="container mx-auto p-6 min-h-screen">
+  <!-- Header -->
+  <div class="mb-8">
+    <div class="flex flex-col space-y-2">
+      <h1 class="text-4xl font-bold text-gray-100">Dashboard</h1>
+      <h2 class="text-xl font-semibold text-gray-300">Reporte de Inversiones</h2>
+      <p class="text-gray-400 max-w-3xl leading-relaxed">
+        Bienvenido a tu panel de control financiero. Aquí puedes visualizar el rendimiento de tu portafolio de inversiones, 
+        monitorear las variaciones diarias y analizar el crecimiento de tus activos en tiempo real.
+      </p>
     </div>
   </div>
+
+  <!-- Dashboard Content -->
+  @defer (when !loading && investments.length > 0) {
+    <div class="space-y-6 flex flex-col gap-6 justify-center items-center w-full">
+      <!-- Main Summary Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 w-full">
+        <app-card [config]="totalInvestedCard"></app-card>
+        <app-card [config]="variationCard"></app-card>
+        <app-card [config]="gainCard"></app-card>
+      </div>
+
+      <!-- Investment Distribution -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 w-full">
+        <app-card [config]="cedearsCard"></app-card>
+        <app-card [config]="accionesCard"></app-card>
+      </div>
+
+      <!-- Investment Table -->
+      <app-table
+        [dataSource]="investments"
+        [config]="tableConfig"
+        [loading]="loading"
+        (rowClick)="onRowClick($event)"
+        (customActionClick)="onCustomActionClick($event)"
+      ></app-table>
+    </div>
+  } @placeholder {
+    <!-- Skeleton loading para el dashboard completo -->
+    <div class="space-y-6 flex flex-col gap-6 justify-center items-center w-full">
+      <!-- Main Summary Cards Skeleton -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 w-full">
+        @for (item of [1,2,3]; track item) {
+          <div class="bg-white rounded-lg shadow-lg p-6">
+            <app-skeleton [config]="{ type: 'title', className: 'mb-2' }"></app-skeleton>
+            <app-skeleton [config]="{ type: 'value', className: 'mb-2' }"></app-skeleton>
+            <app-skeleton [config]="{ type: 'subtitle' }"></app-skeleton>
+          </div>
+        }
+      </div>
+
+      <!-- Investment Distribution Skeleton -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 w-full">
+        @for (item of [1,2]; track item) {
+          <div class="bg-white rounded-lg shadow-lg p-6">
+            <app-skeleton [config]="{ type: 'title', className: 'mb-2' }"></app-skeleton>
+            <app-skeleton [config]="{ type: 'value', className: 'mb-2' }"></app-skeleton>
+            <app-skeleton [config]="{ type: 'subtitle' }"></app-skeleton>
+          </div>
+        }
+      </div>
+
+      <!-- Table Skeleton -->
+      <div class="bg-white rounded-lg shadow-lg p-4 w-full">
+        <app-skeleton [config]="{ type: 'title', className: 'mb-4' }"></app-skeleton>
+        <div class="space-y-3">
+          @for (item of [1,2,3,4,5]; track item) {
+            <div class="flex items-center space-x-4">
+              @for (col of [1,2,3,4,5,6,7,8,9]; track col) {
+                <app-skeleton [config]="{ type: 'text', width: '120px' }"></app-skeleton>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  } @loading {
+    <!-- Loading state adicional -->
+    <div class="flex justify-center items-center h-64">
+      <mat-spinner></mat-spinner>
+    </div>
+  } @error {
+    <!-- Error State -->
+    <div class="text-center py-12">
+      <div class="text-gray-400 mb-4">
+        No se pudieron cargar los datos del dashboard
+      </div>
+      <button
+        (click)="loadDashboardData()"
+        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200 shadow-md hover:shadow-lg"
+      >
+        Reintentar
+      </button>
+    </div>
+  }
 </div>

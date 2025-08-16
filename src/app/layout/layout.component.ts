@@ -3,7 +3,6 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from '../shared/components/footer/footer.component';
-import { ExampleComponent } from '../shared/components/table/example/example.component';
 import { BreadcrumbComponent } from '../shared/components/breadcrumb/breadcrumb.component';
 import { AuthService } from '../core/services/auth.service';
 import { SidebarService } from '../shared/services/sidebar.service';
@@ -15,7 +14,6 @@ import { SidebarService } from '../shared/services/sidebar.service';
     SidebarComponent,
     RouterLink,
     FooterComponent,
-    ExampleComponent,
     BreadcrumbComponent,
     AsyncPipe,
   ],
