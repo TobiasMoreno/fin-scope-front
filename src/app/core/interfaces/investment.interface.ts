@@ -1,17 +1,20 @@
 export interface Investment {
-  id: string;
+  id: number;
+  userId: number;
   symbol: string;
   name: string;
-  quantity: number;
-  lastPrice: number;
-  dailyVariationPercent: number;
-  dailyVariationAmount: number;
-  costPerShare: number;
-  gainLossPercent: number;
-  gainLossAmount: number;
-  total: number;
-  type: 'CEDEAR' | 'ACCION' | 'CRITPO';
-  // Campos adicionales para la tabla
+  quantity: string; // BigDecimal como string desde Spring Boot
+  lastPrice: string;
+  dailyVariationPercent: string;
+  dailyVariationAmount: string;
+  costPerShare: string;
+  gainLossPercent: string;
+  gainLossAmount: string;
+  total: string;
+  type: 'CEDEAR' | 'ACCION' | 'CRIPTO';
+  createdAt: string; // Formato: "dd/MM/yyyy HH:mm:ss"
+  updatedAt: string;
+  // Campos adicionales para la tabla (calculados en el frontend)
   productDisplay?: string;
   dailyVariationPercentDisplay?: string;
   dailyVariationAmountDisplay?: string;
@@ -22,16 +25,66 @@ export interface Investment {
 }
 
 export interface InvestmentSection {
-  type: 'CEDEAR' | 'ACCION' | 'CRITPO';
-  total: number;
+  type: 'CEDEAR' | 'ACCION' | 'CRIPTO';
+  total: string;
   investments: Investment[];
 }
 
 export interface DashboardData {
   sections: InvestmentSection[];
   totalVariation: {
-    daily: number;
-    total: number;
+    daily: string;
+    total: string;
   };
   currency: string;
+}
+
+export interface PaginatedResponse<T> {
+  content: T[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+}
+
+export interface InvestmentSummary {
+  totalInvested: string;
+  totalCurrent: string;
+  totalGain: string;
+  gainPercentage: string;
+  dailyVariation: string;
+  currency: string;
+}
+
+export interface CreateInvestmentRequest {
+  symbol: string;
+  name: string;
+  quantity: string;
+  lastPrice: string;
+  dailyVariationPercent?: string;
+  dailyVariationAmount?: string;
+  costPerShare: string;
+  type: 'CEDEAR' | 'ACCION' | 'CRIPTO';
+}
+
+export interface UpdateInvestmentRequest {
+  symbol?: string;
+  name?: string;
+  quantity?: string;
+  lastPrice?: string;
+  dailyVariationPercent?: string;
+  dailyVariationAmount?: string;
+  costPerShare?: string;
+  type?: 'CEDEAR' | 'ACCION' | 'CRIPTO';
+}
+
+export interface InvestmentFilters {
+  page?: number;
+  limit?: number;
+  sort?: string;
+  order?: 'asc' | 'desc';
+  type?: 'CEDEAR' | 'ACCION' | 'CRIPTO';
+  search?: string;
 }
